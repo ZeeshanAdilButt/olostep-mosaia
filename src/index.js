@@ -3,6 +3,7 @@ export { batchScrape } from './tools/batchScrape.js';
 export { createCrawl } from './tools/createCrawl.js';
 export { createMap } from './tools/createMap.js';
 export { askAnswer } from './tools/askAnswer.js';
+export { handler } from './handler.js';
 
 export function createOlostepTools(defaults = {}) {
   const baseOptions = {

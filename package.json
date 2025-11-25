@@ -2,12 +2,14 @@
   "name": "olostep-mosaia",
   "version": "0.1.0",
   "description": "The most reliable and cost-effective web search, scraping and crawling API for AI. Build intelligent agents that can search, scrape, analyze, and structure data from any website.",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "test:smoke": "node src/examples/smoke-test.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "start:dev": "npm run build && node bin/dev.mjs",
+    "validate:manifest": "node bin/validate-manifest.cjs"
   },
   "keywords": [
     "olostep",
@@ -21,6 +23,11 @@
   "engines": {
     "node": ">=18"
   },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0"
+  },
   "features": [
     "Scrape",
     "Crawl",
@@ -29,6 +36,3 @@
     "Answers"
   ]
 }
-
-
-

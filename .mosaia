@@ -1,0 +1,64 @@
+{
+  "name": "Olostep Tools",
+  "description": "The most reliable and cost-effective web search, scraping and crawling API for AI. Build intelligent agents that can search, scrape, analyze, and structure data from any website.",
+  "schema": {
+    "type": "function",
+    "function": {
+      "name": "olostep_tools",
+      "description": "Execute Olostep web data capabilities including single-page scraping, batch scraping, site crawling, URL mapping, and AI answers with optional citations.",
+      "strict": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "description": "Which Olostep operation to run",
+            "enum": ["scrape_website", "batch_scrape", "create_crawl", "create_map", "ask_ai_answer"]
+          },
+          "url_to_scrape": { "type": "string", "description": "URL to scrape (scrape_website)" },
+          "formats": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "Desired output formats: html, markdown, json, text"
+          },
+          "country": { "type": "string", "description": "Country code for routing, e.g., US, GB" },
+          "wait_before_scraping": { "type": "number", "description": "Milliseconds to wait before scraping" },
+          "parser": { "type": "string", "description": "Optional parser id, e.g., @olostep/amazon-product" },
+          "batch_array": {
+            "type": "array",
+            "description": "Batch of URLs for batch_scrape",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": { "type": "string" },
+                "custom_id": { "type": "string" }
+              },
+              "required": ["url"],
+              "additionalProperties": false
+            }
+          },
+          "start_url": { "type": "string", "description": "Start URL for create_crawl" },
+          "max_pages": { "type": "number", "description": "Max pages for create_crawl" },
+          "follow_links": { "type": "boolean", "description": "Follow links during crawl" },
+          "url": { "type": "string", "description": "Site URL for create_map" },
+          "search_query": { "type": "string", "description": "Optional site search query for create_map or answers" },
+          "top_n": { "type": "number", "description": "Limit URLs for create_map" },
+          "include_urls": { "type": "array", "items": { "type": "string" }, "description": "Include URL patterns" },
+          "exclude_urls": { "type": "array", "items": { "type": "string" }, "description": "Exclude URL patterns" },
+          "question": { "type": "string", "description": "Question for ask_ai_answer" },
+          "context_urls": { "type": "array", "items": { "type": "string" }, "description": "Context URLs to ground answers" },
+          "include_citations": { "type": "boolean", "description": "Include citations in answer" },
+          "top_k_sources": { "type": "number", "description": "Max sources for answers" },
+          "format": { "type": "string", "description": "Output format for answers: markdown | text | json" }
+        },
+        "required": ["operation"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "envVars": ["OLOSTEP_API_KEY"]
+}
+
+
