@@ -1,7 +1,7 @@
 {
   "name": "olostep-mosaia",
   "version": "0.1.0",
-  "description": "Olostep tools for Mosaia (scrape, batch, crawl, map, answers).",
+  "description": "The most reliable and cost-effective web search, scraping and crawling API for AI. Build intelligent agents that can search, scrape, analyze, and structure data from any website.",
   "main": "src/index.js",
   "type": "module",
   "scripts": {

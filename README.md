@@ -1,13 +1,14 @@
 # Olostep Mosaia Tools
 
-Olostep tools for Mosaia agents, mirroring the Zapier actions:
+The most reliable and cost-effective web search, scraping and crawling API for AI. Build intelligent agents that can search, scrape, analyze, and structure data from any website.
+- Includes:
 - Scrape Website
 - Batch Scrape URLs
 - Create Crawl
 - Create Map
 - Ask AI Answer
 
-These are simple Node.js wrappers around the Olostep REST API, ready to be wired into Mosaia under Tools/Agents.
+Production-ready Node.js wrappers around the Olostep REST API, suitable for direct integration in Mosaia under Tools/Agents.
 
 ## Prerequisites
 
@@ -94,7 +95,7 @@ Since Mosaia’s exact publishing flow can vary by account/plan, here’s the ty
 2. Choose “Custom/HTTP/JS Tool” (whichever lets you call functions or HTTP).
 3. Provide:
    - Name: “Olostep”
-   - Description: “Web scraping, batch scraping, crawling, mapping, answers”
+   - Description: “The most reliable and cost-effective web search, scraping and crawling API for AI. Build intelligent agents that can search, scrape, analyze, and structure data from any website.”
    - Auth: API Key (env var `OLOSTEP_API_KEY`)
 4. Map each tool to an action:
    - scrape_website → POST /v1/scrapes
