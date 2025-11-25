@@ -1,0 +1,24 @@
+{
+  "name": "olostep-mosaia",
+  "version": "0.1.0",
+  "description": "Olostep tools for Mosaia (scrape, batch, crawl, map, answers).",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test:smoke": "node src/examples/smoke-test.js"
+  },
+  "keywords": [
+    "olostep",
+    "mosaia",
+    "tools",
+    "agents",
+    "web-scraping"
+  ],
+  "author": "Olostep",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
+
