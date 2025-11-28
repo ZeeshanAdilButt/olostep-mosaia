@@ -17,29 +17,17 @@ async function rmDirIfExists(dir) {
   }
 }
 
-async function ensureDir(dir) {
-  await fsp.mkdir(dir, { recursive: true });
-}
-
-async function copyRecursive(from, to) {
-  const stat = await fsp.stat(from);
-  if (stat.isDirectory()) {
-    await ensureDir(to);
-    const entries = await fsp.readdir(from);
-    for (const entry of entries) {
-      await copyRecursive(path.join(from, entry), path.join(to, entry));
+async function copyDir(src, dest) {
+  await fsp.mkdir(dest, { recursive: true });
+  const entries = await fsp.readdir(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      await copyDir(srcPath, destPath);
+    } else {
+      await fsp.copyFile(srcPath, destPath);
     }
-  } else {
-    await fsp.copyFile(from, to);
-  }
-}
-
-async function writeDistReadme() {
-  const readmeSrc = path.join(projectRoot, 'README.md');
-  try {
-    await fsp.copyFile(readmeSrc, path.join(distDir, 'README.md'));
-  } catch {
-    // ignore if README missing
   }
 }
 
@@ -48,9 +36,7 @@ async function main() {
     throw new Error(`Source directory not found: ${srcDir}`);
   }
   await rmDirIfExists(distDir);
-  await ensureDir(distDir);
-  await copyRecursive(srcDir, distDir);
-  await writeDistReadme();
+  await copyDir(srcDir, distDir);
   console.log('Build complete: dist/');
 }
 
@@ -58,7 +44,3 @@ main().catch((err) => {
   console.error('Build failed:', err);
   process.exit(1);
 });
-
-
-
-
