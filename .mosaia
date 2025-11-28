@@ -1,107 +1,68 @@
 {
-  "name": "Olostep Tools",
-  "description": "The most reliable and cost-effective web search, scraping and crawling API for AI. Build intelligent agents that can search, scrape, analyze, and structure data from any website.",
-  "schema": {
-    "type": "function",
-    "function": {
-      "name": "olostep_tools",
-      "description": "Execute Olostep web scraping and crawling operations. IMPORTANT: Use EXACT parameter names with underscores (e.g., 'url_to_scrape' NOT 'url to scrape'). Available operations: scrape_website, batch_scrape, create_crawl, create_map, ask_ai_answer",
-      "strict": false,
-      "parameters": {
-        "type": "object",
-        "properties": {
-          "operation": {
-            "type": "string",
-            "description": "REQUIRED. Must be one of: 'scrape_website', 'batch_scrape', 'create_crawl', 'create_map', 'ask_ai_answer'. Use underscores, not spaces.",
-            "enum": ["scrape_website", "batch_scrape", "create_crawl", "create_map", "ask_ai_answer"]
-          },
-          "url_to_scrape": {
-            "type": "string",
-            "description": "URL to scrape. REQUIRED for 'scrape_website'. Example: 'https://example.com'"
-          },
-          "formats": {
-            "type": "string",
-            "description": "Output format(s). Options: 'html', 'markdown', 'json', 'text'. For multiple formats use comma-separated string: 'markdown,html'. Default: 'markdown'"
-          },
-          "country": {
-            "type": "string",
-            "description": "Country code for routing, e.g., US, GB"
-          },
-          "wait_before_scraping": {
-            "type": "string",
-            "description": "Milliseconds to wait before scraping (as string number)"
-          },
-          "parser": {
-            "type": "string",
-            "description": "Optional parser id, e.g., @olostep/amazon-product"
-          },
-          "urls": {
-            "type": "string",
-            "description": "Comma-separated list of URLs for batch_scrape operation"
-          },
-          "start_url": {
-            "type": "string",
-            "description": "Starting URL for crawling. REQUIRED for 'create_crawl'. Example: 'https://example.com'"
-          },
-          "max_pages": {
-            "type": "string",
-            "description": "Maximum pages to crawl. For 'create_crawl'. String number, e.g., '10', '50'"
-          },
-          "follow_links": {
-            "type": "string",
-            "description": "Whether to follow links during crawl. For 'create_crawl'. Use 'true' or 'false' as string"
-          },
-          "url": {
-            "type": "string",
-            "description": "Site URL for create_map operation"
-          },
-          "search_query": {
-            "type": "string",
-            "description": "Optional site search query for create_map or answers"
-          },
-          "top_n": {
-            "type": "string",
-            "description": "Limit URLs for create_map (as string number)"
-          },
-          "include_urls": {
-            "type": "string",
-            "description": "Comma-separated URL patterns to include"
-          },
-          "exclude_urls": {
-            "type": "string",
-            "description": "Comma-separated URL patterns to exclude"
-          },
-          "task": {
-            "type": "string",
-            "description": "Question or task for AI to answer using web data. REQUIRED for 'ask_ai_answer'. Formerly called 'question'. Example: 'What are the latest company updates?'"
-          },
-          "context_urls": {
-            "type": "string",
-            "description": "Comma-separated URLs to ground the answer. For 'ask_ai_answer'. Example: 'https://example.com/about,https://example.com/blog'"
-          },
-          "include_citations": {
-            "type": "string",
-            "description": "Include citations/sources in the answer. For 'ask_ai_answer'. Use 'true' or 'false' as string. Default: 'true'"
-          },
-          "top_k_sources": {
-            "type": "string",
-            "description": "Maximum number of sources to use for answer. For 'ask_ai_answer'. String number, e.g., '3', '5'"
-          },
-          "format": {
-            "type": "string",
-            "description": "Output format for answer. For 'ask_ai_answer'. Options: 'markdown', 'text', 'json'. Default: 'markdown'"
-          },
-          "json": {
-            "type": "string",
-            "description": "Desired JSON output schema for structured answers. For 'ask_ai_answer'. Example: '{\"company\":\"\",\"funding\":\"\",\"employees\":\"\"}'"
-          }
-        },
-        "required": ["operation"],
-        "additionalProperties": false
-      }
-    }
-  },
-  "envVars": ["OLOSTEP_API_KEY"]
+    "name": "Olostep Web Tools",
+    "description": "The most reliable web search, scraping and crawling API for AI agents. Scrape websites, crawl pages, map URLs, and get AI-powered answers from web content.",
+    "schema": {
+        "type": "function",
+        "function": {
+            "name": "Olostep Web Tools",
+            "description": "Execute web data operations: scrape_website (extract content from URL), batch_scrape (scrape multiple URLs), create_crawl (crawl entire site), create_map (discover URLs), ask_ai_answer (AI answers from web). Pass operation name and required parameters.",
+            "strict": false,
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "operation": {
+                        "type": "string",
+                        "description": "Operation to execute. Must be one of: scrape_website, batch_scrape, create_crawl, create_map, ask_ai_answer"
+                    },
+                    "url_to_scrape": {
+                        "type": "string",
+                        "description": "URL to scrape. Required for scrape_website. Example: https://example.com"
+                    },
+                    "urls": {
+                        "type": "string",
+                        "description": "Comma-separated URLs for batch_scrape. Example: https://a.com,https://b.com"
+                    },
+                    "start_url": {
+                        "type": "string",
+                        "description": "Starting URL for create_crawl. Example: https://example.com"
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "Site URL for create_map. Example: https://example.com"
+                    },
+                    "task": {
+                        "type": "string",
+                        "description": "Question or task for ask_ai_answer. Example: What is the company about?"
+                    },
+                    "formats": {
+                        "type": "string",
+                        "description": "Output format(s): markdown, html, json, text. Comma-separated for multiple."
+                    },
+                    "max_pages": {
+                        "type": "string",
+                        "description": "Max pages to crawl (number as string). Example: 10"
+                    },
+                    "follow_links": {
+                        "type": "string",
+                        "description": "Follow links during crawl: true or false"
+                    },
+                    "top_n": {
+                        "type": "string",
+                        "description": "Max URLs to return from create_map (number as string). Example: 50"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country code for geo-routing. Example: US, GB"
+                    },
+                    "json": {
+                        "type": "string",
+                        "description": "JSON schema for structured AI answers. Example: {\"company\":\"\",\"size\":\"\"}"
+                    }
+                },
+                "required": ["operation"],
+                "additionalProperties": false
+            }
+        }
+    },
+    "envVars": ["OLOSTEP_API_KEY"]
 }
-
-
