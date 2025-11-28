@@ -21,6 +21,22 @@ function parseBoolean(value) {
   return value === 'true';
 }
 
+// Helper to normalize keys: convert spaces to underscores and lowercase
+function normalizeArgs(args) {
+  const normalized = {};
+  for (const [key, value] of Object.entries(args)) {
+    const normalizedKey = key.replace(/\s+/g, '_').toLowerCase();
+    normalized[normalizedKey] = value;
+  }
+  return normalized;
+}
+
+// Helper to normalize operation name
+function normalizeOperation(op) {
+  if (!op) return op;
+  return op.replace(/\s+/g, '_').toLowerCase();
+}
+
 export async function handler(event) {
   let parsed;
   try {
@@ -32,13 +48,16 @@ export async function handler(event) {
     };
   }
 
-  const args = parsed.args || {};
+  // Normalize all argument keys (spaces -> underscores)
+  const rawArgs = parsed.args || {};
+  const args = normalizeArgs(rawArgs);
   const secrets = parsed.secrets || {};
 
   const apiKey = secrets.OLOSTEP_API_KEY || process.env.OLOSTEP_API_KEY;
   const tools = createOlostepTools({ apiKey });
 
-  const operation = args.operation;
+  // Normalize operation name (e.g., "ask ai answer" -> "ask_ai_answer")
+  const operation = normalizeOperation(args.operation);
 
   try {
     let result;
@@ -87,12 +106,16 @@ export async function handler(event) {
         result = await tools.askAnswer({
           task: args.task || args.question,
           json: args.json,
+          include_citations: parseBoolean(args.include_citations),
+          top_k_sources: parseNumber(args.top_k_sources),
+          format: args.format,
+          context_urls: parseStringArray(args.context_urls),
         });
         break;
       default:
         return {
           statusCode: 400,
-          body: JSON.stringify({ error: 'Invalid or missing operation' }),
+          body: JSON.stringify({ error: `Invalid or missing operation: "${operation}". Valid operations: scrape_website, batch_scrape, create_crawl, create_map, ask_ai_answer` }),
         };
     }
 
