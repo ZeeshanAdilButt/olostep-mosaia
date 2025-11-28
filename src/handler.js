@@ -1,5 +1,26 @@
 import { createOlostepTools } from './index.js';
 
+// Helper to parse comma-separated strings into arrays
+function parseStringArray(value) {
+  if (!value) return undefined;
+  if (Array.isArray(value)) return value;
+  return value.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+// Helper to parse string to number
+function parseNumber(value) {
+  if (value === undefined || value === null || value === '') return undefined;
+  const num = Number(value);
+  return isNaN(num) ? undefined : num;
+}
+
+// Helper to parse string to boolean
+function parseBoolean(value) {
+  if (value === undefined || value === null || value === '') return undefined;
+  if (typeof value === 'boolean') return value;
+  return value === 'true';
+}
+
 export async function handler(event) {
   let parsed;
   try {
@@ -25,27 +46,30 @@ export async function handler(event) {
       case 'scrape_website':
         result = await tools.scrapeWebsite({
           url_to_scrape: args.url_to_scrape,
-          formats: args.formats,
+          formats: parseStringArray(args.formats),
           country: args.country,
-          wait_before_scraping: args.wait_before_scraping,
+          wait_before_scraping: parseNumber(args.wait_before_scraping),
           parser: args.parser,
         });
         break;
       case 'batch_scrape':
+        // Parse urls string into batch_array format
+        const urls = parseStringArray(args.urls);
+        const batchArray = urls ? urls.map((url, i) => ({ url, custom_id: `item_${i}` })) : undefined;
         result = await tools.batchScrape({
-          batch_array: args.batch_array,
-          formats: args.formats,
+          batch_array: batchArray,
+          formats: parseStringArray(args.formats),
           country: args.country,
-          wait_before_scraping: args.wait_before_scraping,
+          wait_before_scraping: parseNumber(args.wait_before_scraping),
           parser: args.parser,
         });
         break;
       case 'create_crawl':
         result = await tools.createCrawl({
           start_url: args.start_url,
-          max_pages: args.max_pages,
-          follow_links: args.follow_links,
-          formats: args.formats,
+          max_pages: parseNumber(args.max_pages),
+          follow_links: parseBoolean(args.follow_links),
+          formats: parseStringArray(args.formats),
           country: args.country,
           parser: args.parser,
         });
@@ -54,9 +78,9 @@ export async function handler(event) {
         result = await tools.createMap({
           url: args.url,
           search_query: args.search_query,
-          top_n: args.top_n,
-          include_urls: args.include_urls,
-          exclude_urls: args.exclude_urls,
+          top_n: parseNumber(args.top_n),
+          include_urls: parseStringArray(args.include_urls),
+          exclude_urls: parseStringArray(args.exclude_urls),
         });
         break;
       case 'ask_ai_answer':
