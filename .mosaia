@@ -6,7 +6,7 @@
     "function": {
       "name": "olostep_tools",
       "description": "Execute Olostep web data capabilities including single-page scraping, batch scraping, site crawling, URL mapping, and AI answers with optional citations.",
-      "strict": true,
+      "strict": false,
       "parameters": {
         "type": "object",
         "properties": {
