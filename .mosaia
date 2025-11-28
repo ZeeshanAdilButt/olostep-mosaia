@@ -5,23 +5,23 @@
     "type": "function",
     "function": {
       "name": "olostep_tools",
-      "description": "Execute Olostep web data capabilities including single-page scraping, batch scraping, site crawling, URL mapping, and AI answers with optional citations.",
-      "strict": false,
+      "description": "Execute Olostep web scraping and crawling operations. IMPORTANT: Use EXACT parameter names with underscores (e.g., 'url_to_scrape' NOT 'url to scrape'). Available operations: scrape_website, batch_scrape, create_crawl, create_map, ask_ai_answer",
+      "strict": true,
       "parameters": {
         "type": "object",
         "properties": {
           "operation": {
             "type": "string",
-            "description": "Which Olostep operation to run: scrape_website (scrape a single URL), batch_scrape (scrape multiple URLs), create_crawl (crawl a website), create_map (discover URLs on a site), ask_ai_answer (get AI answers from web content)",
+            "description": "REQUIRED. Must be one of: 'scrape_website', 'batch_scrape', 'create_crawl', 'create_map', 'ask_ai_answer'. Use underscores, not spaces.",
             "enum": ["scrape_website", "batch_scrape", "create_crawl", "create_map", "ask_ai_answer"]
           },
           "url_to_scrape": {
             "type": "string",
-            "description": "URL to scrape (required for scrape_website operation)"
+            "description": "URL to scrape. REQUIRED for 'scrape_website'. Example: 'https://example.com'"
           },
           "formats": {
             "type": "string",
-            "description": "Desired output format: html, markdown, json, or text. Use comma-separated values for multiple formats e.g. 'markdown,html'"
+            "description": "Output format(s). Options: 'html', 'markdown', 'json', 'text'. For multiple formats use comma-separated string: 'markdown,html'. Default: 'markdown'"
           },
           "country": {
             "type": "string",
@@ -41,15 +41,15 @@
           },
           "start_url": {
             "type": "string",
-            "description": "Start URL for create_crawl operation"
+            "description": "Starting URL for crawling. REQUIRED for 'create_crawl'. Example: 'https://example.com'"
           },
           "max_pages": {
             "type": "string",
-            "description": "Max pages for create_crawl (as string number)"
+            "description": "Maximum pages to crawl. For 'create_crawl'. String number, e.g., '10', '50'"
           },
           "follow_links": {
             "type": "string",
-            "description": "Follow links during crawl: true or false"
+            "description": "Whether to follow links during crawl. For 'create_crawl'. Use 'true' or 'false' as string"
           },
           "url": {
             "type": "string",
@@ -71,25 +71,29 @@
             "type": "string",
             "description": "Comma-separated URL patterns to exclude"
           },
-          "question": {
+          "task": {
             "type": "string",
-            "description": "Question for ask_ai_answer operation"
+            "description": "Question or task for AI to answer using web data. REQUIRED for 'ask_ai_answer'. Formerly called 'question'. Example: 'What are the latest company updates?'"
           },
           "context_urls": {
             "type": "string",
-            "description": "Comma-separated context URLs to ground answers"
+            "description": "Comma-separated URLs to ground the answer. For 'ask_ai_answer'. Example: 'https://example.com/about,https://example.com/blog'"
           },
           "include_citations": {
             "type": "string",
-            "description": "Include citations in answer: true or false"
+            "description": "Include citations/sources in the answer. For 'ask_ai_answer'. Use 'true' or 'false' as string. Default: 'true'"
           },
           "top_k_sources": {
             "type": "string",
-            "description": "Max sources for answers (as string number)"
+            "description": "Maximum number of sources to use for answer. For 'ask_ai_answer'. String number, e.g., '3', '5'"
           },
           "format": {
             "type": "string",
-            "description": "Output format for answers: markdown, text, or json"
+            "description": "Output format for answer. For 'ask_ai_answer'. Options: 'markdown', 'text', 'json'. Default: 'markdown'"
+          },
+          "json": {
+            "type": "string",
+            "description": "Desired JSON output schema for structured answers. For 'ask_ai_answer'. Example: '{\"company\":\"\",\"funding\":\"\",\"employees\":\"\"}'"
           }
         },
         "required": ["operation"],
