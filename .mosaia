@@ -6,7 +6,7 @@
     "function": {
       "name": "olostep_tools",
       "description": "Execute Olostep web scraping and crawling operations. IMPORTANT: Use EXACT parameter names with underscores (e.g., 'url_to_scrape' NOT 'url to scrape'). Available operations: scrape_website, batch_scrape, create_crawl, create_map, ask_ai_answer",
-      "strict": true,
+      "strict": false,
       "parameters": {
         "type": "object",
         "properties": {
