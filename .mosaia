@@ -1,46 +1,50 @@
 {
     "name": "Olostep Web Tools",
-    "description": "The most reliable web search, scraping and crawling API for AI agents. Scrape websites, crawl pages, map URLs, and get AI-powered answers from web content.",
+    "description": "The most reliable web search, scraping and crawling API for AI agents. Use ask_ai_answer for research questions, scrape_website for page content extraction.",
     "schema": {
         "type": "function",
         "function": {
             "name": "Olostep Web Tools",
-            "description": "Execute web data operations: scrape_website (extract content from URL), batch_scrape (scrape multiple URLs), create_crawl (crawl entire site), create_map (discover URLs), ask_ai_answer (AI answers from web). Pass operation name and required parameters.",
+            "description": "Web data extraction tool. RECOMMENDED: Use 'ask_ai_answer' for research/questions (returns instant AI-powered answers with sources). Use 'scrape_website' to extract content from a specific URL (returns markdown/html instantly). AVOID 'create_crawl' and 'batch_scrape' as they are async and don't return immediate results.",
             "strict": false,
             "parameters": {
                 "type": "object",
                 "properties": {
                     "operation": {
                         "type": "string",
-                        "description": "Operation to execute. Must be one of: scrape_website, batch_scrape, create_crawl, create_map, ask_ai_answer"
-                    },
-                    "url_to_scrape": {
-                        "type": "string",
-                        "description": "URL to scrape. Required for scrape_website. Example: https://example.com"
-                    },
-                    "urls": {
-                        "type": "string",
-                        "description": "Comma-separated URLs for batch_scrape. Example: https://a.com,https://b.com"
-                    },
-                    "start_url": {
-                        "type": "string",
-                        "description": "Starting URL for create_crawl. Example: https://example.com"
-                    },
-                    "url": {
-                        "type": "string",
-                        "description": "Site URL for create_map. Example: https://example.com"
+                        "description": "Operation to run. PREFERRED: 'ask_ai_answer' (for research questions, returns instant answers), 'scrape_website' (extract page content instantly). ASYNC (avoid): 'create_crawl', 'batch_scrape', 'create_map'"
                     },
                     "task": {
                         "type": "string",
-                        "description": "Question or task for ask_ai_answer. Example: What is the company about?"
+                        "description": "Question or research task for ask_ai_answer. This is the BEST operation for research. Example: 'What is PostHog company size and tech stack?'"
+                    },
+                    "url_to_scrape": {
+                        "type": "string",
+                        "description": "URL to scrape for scrape_website operation. Returns page content as markdown. Example: https://posthog.com/about"
                     },
                     "formats": {
                         "type": "string",
-                        "description": "Output format(s): markdown, html, json, text. Comma-separated for multiple."
+                        "description": "Output format for scrape_website: markdown (default), html, json, or text"
+                    },
+                    "json": {
+                        "type": "string",
+                        "description": "JSON schema for structured answers from ask_ai_answer. Example: {\"company\":\"\",\"size\":\"\",\"funding\":\"\"}"
+                    },
+                    "urls": {
+                        "type": "string",
+                        "description": "Comma-separated URLs for batch_scrape (ASYNC - results not immediate)"
+                    },
+                    "start_url": {
+                        "type": "string",
+                        "description": "Starting URL for create_crawl (ASYNC - results not immediate)"
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "Site URL for create_map (returns list of discovered URLs)"
                     },
                     "max_pages": {
                         "type": "string",
-                        "description": "Max pages to crawl (number as string). Example: 10"
+                        "description": "Max pages for create_crawl"
                     },
                     "follow_links": {
                         "type": "string",
@@ -48,15 +52,11 @@
                     },
                     "top_n": {
                         "type": "string",
-                        "description": "Max URLs to return from create_map (number as string). Example: 50"
+                        "description": "Max URLs to return from create_map"
                     },
                     "country": {
                         "type": "string",
-                        "description": "Country code for geo-routing. Example: US, GB"
-                    },
-                    "json": {
-                        "type": "string",
-                        "description": "JSON schema for structured AI answers. Example: {\"company\":\"\",\"size\":\"\"}"
+                        "description": "Country code for geo-routing: US, GB, etc."
                     }
                 },
                 "required": ["operation"],
