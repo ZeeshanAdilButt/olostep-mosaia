@@ -1,0 +1,89 @@
+warning: in the working copy of '.mosaia', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/.mosaia b/.mosaia[m
+[1mindex 097b8ba..2333625 100644[m
+[1m--- a/.mosaia[m
+[1m+++ b/.mosaia[m
+[36m@@ -1,46 +1,50 @@[m
+ {[m
+     "name": "Olostep Web Tools",[m
+[31m-    "description": "The most reliable web search, scraping and crawling API for AI agents. Scrape websites, crawl pages, map URLs, and get AI-powered answers from web content.",[m
+[32m+[m[32m    "description": "The most reliable web search, scraping and crawling API for AI agents. Use ask_ai_answer for research questions, scrape_website for page content extraction.",[m
+     "schema": {[m
+         "type": "function",[m
+         "function": {[m
+             "name": "Olostep Web Tools",[m
+[31m-            "description": "Execute web data operations: scrape_website (extract content from URL), batch_scrape (scrape multiple URLs), create_crawl (crawl entire site), create_map (discover URLs), ask_ai_answer (AI answers from web). Pass operation name and required parameters.",[m
+[32m+[m[32m            "description": "Web data extraction tool. RECOMMENDED: Use 'ask_ai_answer' for research/questions (returns instant AI-powered answers with sources). Use 'scrape_website' to extract content from a specific URL (returns markdown/html instantly). AVOID 'create_crawl' and 'batch_scrape' as they are async and don't return immediate results.",[m
+             "strict": false,[m
+             "parameters": {[m
+                 "type": "object",[m
+                 "properties": {[m
+                     "operation": {[m
+                         "type": "string",[m
+[31m-                        "description": "Operation to execute. Must be one of: scrape_website, batch_scrape, create_crawl, create_map, ask_ai_answer"[m
+[32m+[m[32m                        "description": "Operation to run. PREFERRED: 'ask_ai_answer' (for research questions, returns instant answers), 'scrape_website' (extract page content instantly). ASYNC (avoid): 'create_crawl', 'batch_scrape', 'create_map'"[m
+[32m+[m[32m                    },[m
+[32m+[m[32m                    "task": {[m
+[32m+[m[32m                        "type": "string",[m
+[32m+[m[32m                        "description": "Question or research task for ask_ai_answer. This is the BEST operation for research. Example: 'What is PostHog company size and tech stack?'"[m
+                     },[m
+                     "url_to_scrape": {[m
+                         "type": "string",[m
+[31m-                        "description": "URL to scrape. Required for scrape_website. Example: https://example.com"[m
+[32m+[m[32m                        "description": "URL to scrape for scrape_website operation. Returns page content as markdown. Example: https://posthog.com/about"[m
+                     },[m
+[31m-                    "urls": {[m
+[32m+[m[32m                    "formats": {[m
+                         "type": "string",[m
+[31m-                        "description": "Comma-separated URLs for batch_scrape. Example: https://a.com,https://b.com"[m
+[32m+[m[32m                        "description": "Output format for scrape_website: markdown (default), html, json, or text"[m
+                     },[m
+[31m-                    "start_url": {[m
+[32m+[m[32m                    "json": {[m
+                         "type": "string",[m
+[31m-                        "description": "Starting URL for create_crawl. Example: https://example.com"[m
+[32m+[m[32m                        "description": "JSON schema for structured answers from ask_ai_answer. Example: {\"company\":\"\",\"size\":\"\",\"funding\":\"\"}"[m
+                     },[m
+[31m-                    "url": {[m
+[32m+[m[32m                    "urls": {[m
+                         "type": "string",[m
+[31m-                        "description": "Site URL for create_map. Example: https://example.com"[m
+[32m+[m[32m                        "description": "Comma-separated URLs for batch_scrape (ASYNC - results not immediate)"[m
+                     },[m
+[31m-                    "task": {[m
+[32m+[m[32m                    "start_url": {[m
+                         "type": "string",[m
+[31m-                        "description": "Question or task for ask_ai_answer. Example: What is the company about?"[m
+[32m+[m[32m                        "description": "Starting URL for create_crawl (ASYNC - results not immediate)"[m
+                     },[m
+[31m-                    "formats": {[m
+[32m+[m[32m                    "url": {[m
+                         "type": "string",[m
+[31m-                        "description": "Output format(s): markdown, html, json, text. Comma-separated for multiple."[m
+[32m+[m[32m                        "description": "Site URL for create_map (returns list of discovered URLs)"[m
+                     },[m
+                     "max_pages": {[m
+                         "type": "string",[m
+[31m-                        "description": "Max pages to crawl (number as string). Example: 10"[m
+[32m+[m[32m                        "description": "Max pages for create_crawl"[m
+                     },[m
+                     "follow_links": {[m
+                         "type": "string",[m
+[36m@@ -48,15 +52,11 @@[m
+                     },[m
+                     "top_n": {[m
+                         "type": "string",[m
+[31m-                        "description": "Max URLs to return from create_map (number as string). Example: 50"[m
+[32m+[m[32m                        "description": "Max URLs to return from create_map"[m
+                     },[m
+                     "country": {[m
+                         "type": "string",[m
+[31m-                        "description": "Country code for geo-routing. Example: US, GB"[m
+[31m-                    },[m
+[31m-                    "json": {[m
+[31m-                        "type": "string",[m
+[31m-                        "description": "JSON schema for structured AI answers. Example: {\"company\":\"\",\"size\":\"\"}"[m
+[32m+[m[32m                        "description": "Country code for geo-routing: US, GB, etc."[m
+                     }[m
+                 },[m
+                 "required": ["operation"],[m
